@@ -6,6 +6,7 @@ import java.lang.*;
 import java.util.*;
 public class RendererCanvas extends JPanel{
   Model model;
+  Model secondModel;
   Light lightSource;
   Model ground;
   Camera camera;
@@ -25,6 +26,9 @@ public class RendererCanvas extends JPanel{
     model.rotateX(30,new PrecisePoint(0,0,0));
     model.rotateY(30,new PrecisePoint(0,0,0));
     model.rotateZ(180+30,new PrecisePoint(0,0,0));
+
+    secondModel = model.clone();
+    secondModel.addVector(new PrecisePoint(-300,0,0));
     //model=new Model(new Triangle[]{new Triangle(v1,v2,v3)} );
 
     lightSource = new Light(-1,-1,10);
@@ -41,8 +45,10 @@ public class RendererCanvas extends JPanel{
 
 
     camera.loadModel(model);
+    camera.loadModel(secondModel);
     camera.rayTrace();
     Draw(g2d,model);
+    Draw(g2d,secondModel);
   }
   public void Draw(Graphics2D g2d, Model m){
     Triangle[] tris = m.getTriangles();

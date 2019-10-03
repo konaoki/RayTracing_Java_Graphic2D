@@ -31,6 +31,12 @@ public class Triangle extends Plane{
     }
   }
 
+  public void addVector(PrecisePoint p){
+    for(int i=0; i<getVertices().length; i++){
+      getVertices()[i].add(p);
+    }
+  }
+
   public double getArea(){
     return 0.5*getVertices()[2].subtract(getVertices()[0]).cross(getVertices()[1].subtract(getVertices()[0])).magnitude();
   }

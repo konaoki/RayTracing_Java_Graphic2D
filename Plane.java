@@ -21,6 +21,11 @@ public class Plane{
     cross.scale(1/cross.magnitude());
     return cross;
   }
+  public Plane clone(){
+    PrecisePoint[] verts = vertices.clone();
+    return new Plane(verts);
+  }
+  
 
 
 }

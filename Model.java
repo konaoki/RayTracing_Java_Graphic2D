@@ -20,7 +20,7 @@ public class Model{
   public void rotateX(double angle, PrecisePoint c){
     for(int i=0; i<getTriangles().length; i++){
       triangles[i].rotateX(angle,c);
-      
+
     }
   }
   public void rotateY(double angle, PrecisePoint c){
@@ -33,6 +33,11 @@ public class Model{
       triangles[i].rotateZ(angle,c);
     }
   }
+  public void addVector(PrecisePoint p){
+    for(int i=0; i<getTriangles().length; i++){
+      triangles[i].addVector(p);
+    }
+  }
   public Triangle[] getTriangles(){
     return triangles;
   }
@@ -41,5 +46,8 @@ public class Model{
   }
   public Triangle triangleAt(PrecisePoint p){
     return null;
+  }
+  public Model clone(){
+    return new Model(triangles.clone());
   }
 }
