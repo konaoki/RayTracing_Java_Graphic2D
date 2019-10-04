@@ -1,7 +1,9 @@
 public class Model{
   Triangle[] triangles;
+  Boolean reflective;
   public Model(Triangle[] ts){
     triangles=ts;
+    reflective=false;
   }
   public PrecisePoint[] getVertices(){
     PrecisePoint[] ps = new PrecisePoint[triangles.length*3];
@@ -12,10 +14,12 @@ public class Model{
     }
     return ps;
   }
-  public void scale(double s){
+  public Model scale(double s){
+    Triangle[] tempTriangles = new Triangle[triangles.length];
     for(int i=0; i<getTriangles().length; i++){
-      triangles[i].scale(s);
+      tempTriangles[i]=(Triangle)triangles[i].scale(s);
     }
+    return new Model(tempTriangles);
   }
   public void rotateX(double angle, PrecisePoint c){
     for(int i=0; i<getTriangles().length; i++){
@@ -43,6 +47,17 @@ public class Model{
   }
   public Boolean contains(PrecisePoint p){
     return false;
+  }
+  public PrecisePoint getCenter(){
+    double ax=0;
+    double ay=0;
+    double az=0;
+    for(int i=0; i<getVertices().length; i++){
+      ax+=getVertices()[i].getX();
+      ay+=getVertices()[i].getY();
+      az+=getVertices()[i].getZ();
+    }
+    return new PrecisePoint(ax/getVertices().length,ay/getVertices().length,az/getVertices().length);
   }
   public Triangle triangleAt(PrecisePoint p){
     return null;

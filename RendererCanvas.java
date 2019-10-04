@@ -10,45 +10,42 @@ public class RendererCanvas extends JPanel{
   Light lightSource;
   Model ground;
   Camera camera;
-  public RendererCanvas(){
-    setPreferredSize(new Dimension(2000,1000));
-    double zOffset=1;
-    PrecisePoint v1 = new PrecisePoint(-1,-1,-zOffset);
-    PrecisePoint v2 = new PrecisePoint(1,-1,-zOffset);
-    PrecisePoint v3 = new PrecisePoint(1,1,-zOffset);
-    PrecisePoint v4 = new PrecisePoint(1,-1,-1-zOffset);
+  public RendererCanvas(int w,int h){
+
+    double zOffset=-2;
+    PrecisePoint v1 = new PrecisePoint(-1,-1,+zOffset);
+    PrecisePoint v2 = new PrecisePoint(1,-1,+zOffset);
+    PrecisePoint v3 = new PrecisePoint(1,1,+zOffset);
+    PrecisePoint v4 = new PrecisePoint(1,-1,-1+zOffset);
 
     model=new Model(
       new Triangle[]{new Triangle(v1.clone(),v2.clone(),v3.clone()),new Triangle(v1.clone(),v4.clone(),v2.clone()),new Triangle(v1.clone(),v3.clone(),v4.clone()),new Triangle(v2.clone(),v4.clone(),v3.clone())}
     );
+    //model=new Model(new Triangle[]{new Triangle(v1.clone(),v2.clone(),v3.clone())});
 
-    model.scale(200);
-    model.rotateX(30,new PrecisePoint(0,0,0));
-    model.rotateY(30,new PrecisePoint(0,0,0));
-    model.rotateZ(180+30,new PrecisePoint(0,0,0));
+    model = model.scale(400);
 
-    secondModel = model.clone();
-    secondModel.addVector(new PrecisePoint(-300,0,0));
-    //model=new Model(new Triangle[]{new Triangle(v1,v2,v3)} );
+    model.rotateX(-45,model.getCenter());
+    model.rotateY(-45,model.getCenter());
+    //model.rotateZ(15,model.getCenter());
 
-    lightSource = new Light(-1,-1,10);
-
-    camera = new Camera(new PrecisePoint(0,100,100),new PrecisePoint(0,-10,-10));
-
+    camera = new Camera(new PrecisePoint(0,0,10000),new PrecisePoint(0,0,-10),w,h);
+    //lightSource = new Light(camera.position);
   }
   @Override
   public void paintComponent(Graphics g){
     super.paintComponent(g);
     Graphics2D g2d = (Graphics2D)g;
+    g.setColor(Color.black);
+    g.fillRect(0, 0, getWidth(), getHeight());
     g2d.translate(getWidth()/2,getHeight()/2);
     g2d.scale(1,-1);
 
 
+
     camera.loadModel(model);
-    camera.loadModel(secondModel);
     camera.rayTrace();
     Draw(g2d,model);
-    Draw(g2d,secondModel);
   }
   public void Draw(Graphics2D g2d, Model m){
     Triangle[] tris = m.getTriangles();
@@ -63,24 +60,27 @@ public class RendererCanvas extends JPanel{
         ys[j]=points[j].toInt()[1];
       }
       Polygon p = new Polygon(xs,ys,3);
-      if(tris[i].color!=Color.black){
-        g2d.setColor(tris[i].color);
-        g2d.fill(p);
-      }
 
-      g2d.setColor(Color.black);
-      g2d.draw(p);
-      g2d.setColor(Color.gray);
-
+      //g2d.setColor(Color.gray);
+      //g2d.draw(p);
       for(int j=0; j<camera.rays.length; j++){
-        //System.out.println(camera.rays[i].collisionPoints.get(0));
-        //System.out.println(camera.rays[i].collisionPoints.get(1));
-        if(camera.rays[j].numberOfCollision>0){
+        if(camera.rays[j].collisionPoints.size()>1){
+          g2d.setColor(Color.gray);
+          /*
           g2d.drawLine(
             (int)Math.round(camera.rays[j].collisionPoints.get(0).getX()),
             (int)Math.round(camera.rays[j].collisionPoints.get(0).getY()),
             (int)Math.round(camera.rays[j].collisionPoints.get(1).getX()),
             (int)Math.round(camera.rays[j].collisionPoints.get(1).getY())
+          );
+          */
+
+          g2d.setColor(camera.pixels[j].color);
+          g2d.drawLine(
+          (int)Math.round(camera.pixels[j].getX()),
+          (int)Math.round(camera.pixels[j].getY()),
+          (int)Math.round(camera.pixels[j].getX()),
+          (int)Math.round(camera.pixels[j].getY())
           );
         }
       }

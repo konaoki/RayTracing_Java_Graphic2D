@@ -9,6 +9,11 @@ public class PrecisePoint{
     this.y=y;
     this.z=z;
   }
+  public PrecisePoint(PrecisePoint p){
+    this.x=p.getX();
+    this.y=p.getY();
+    this.z=p.getZ();
+  }
   public void rotateX(double angle, PrecisePoint center){
     double[] tempPrecisePoint = new double[3];
     double rad = Math.toRadians(angle);
@@ -48,14 +53,8 @@ public class PrecisePoint{
     y=tempPrecisePoint[1]+center.getY();
     z=tempPrecisePoint[2]+center.getZ();
   }
-  public void scale(double s){
-    double[] tempPrecisePoint = new double[3];
-    tempPrecisePoint[0]=getX()*s;
-    tempPrecisePoint[1]=getY()*s;
-    tempPrecisePoint[2]=getZ()*s;
-    x=tempPrecisePoint[0];
-    y=tempPrecisePoint[1];
-    z=tempPrecisePoint[2];
+  public PrecisePoint scale(double s){
+    return new PrecisePoint(getX()*s,getY()*s,getZ()*s);
   }
   public PrecisePoint add(PrecisePoint p){
     return new PrecisePoint(x+p.getX(),y+p.getY(),z+p.getZ());
@@ -78,6 +77,15 @@ public class PrecisePoint{
   }
   public double getZ(){
     return this.z;
+  }
+  public PrecisePoint setX(double x){
+    return new PrecisePoint(x,this.y,this.z);
+  }
+  public PrecisePoint setY(double y){
+    return new PrecisePoint(this.x,y,this.z);
+  }
+  public PrecisePoint setZ(double z){
+    return new PrecisePoint(this.x,this.y,z);
   }
   public double magnitude(){
     return Math.sqrt(Math.pow(getX(),2)+Math.pow(getY(),2)+Math.pow(getZ(),2));

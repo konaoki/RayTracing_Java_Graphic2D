@@ -4,53 +4,64 @@ public class Camera{
   PrecisePoint position;
   PrecisePoint direction;
   Ray[] rays;
+  Pixel[] pixels;
   ArrayList<Model> models;
   Plane window;
-  public Camera(PrecisePoint p, PrecisePoint d){
+  int width;
+  int height;
+
+  PrecisePoint lightSource;
+
+  public Camera(PrecisePoint p, PrecisePoint d,int w,int h){
     position=p;
     direction=d;
     models=new ArrayList<Model>();
-    window=new Plane(new PrecisePoint[]{position.add(new PrecisePoint(-100,100,-200)),position.add(new PrecisePoint(100,100,-200)),position.add(new PrecisePoint(100,-100,-200)),position.add(new PrecisePoint(-100,-100,-200))});
+    width=w;
+    height=h;
+    window=new Plane(new PrecisePoint[]{position.add(new PrecisePoint(-width/2,height/2,0)),position.add(new PrecisePoint(width/2,height/2,0)),position.add(new PrecisePoint(width/2,-height/2,0)),position.add(new PrecisePoint(-width/2,-height/2,0))});
+    lightSource=position.clone().setZ(0);
   }
 
   public void loadModel(Model m){
     models.add(m);
   }
   public void rayTrace(){
-    int size=50;
-    rays=new Ray[size*size];
-    for(int i=0; i<size; i++){
-      for(int j=0; j<size; j++){
-        rays[i+j*size]=new Ray(position);
-        PrecisePoint dir=new PrecisePoint(-100+200/size*i,-100+200/size*j,-10);
+
+    rays=new Ray[width*height];
+    pixels=new Pixel[width*height];
+    for(int i=0; i<width; i++){
+      for(int j=0; j<height; j++){
+        rays[i+j*width]=new Ray(position);
+        PrecisePoint destination=new PrecisePoint(-width/2+i,-height/2+j,0);
+        //System.out.println("dest: "+destination);
+        pixels[i+j*width]=new Pixel(destination);
         for(int k=0; k<models.size();k++){
           Triangle[] tris = models.get(k).getTriangles();
           for(int l=0; l<tris.length; l++){
-            PrecisePoint tempDir = dir.clone();
-            tempDir.scale(
-              tris[l].getNormal().dot(
-                tris[l].getVertices()[0].subtract(position)
-              ) /  tris[l].getNormal().dot(tempDir)
-            );
+            PrecisePoint tempDest = destination.clone().subtract(position);
+            //System.out.println("tri center: "+tris[l].getCenter());
+              PrecisePoint cameraToIntersection =tempDest.scale(
+                tris[l].getNormal().dot(
+                  tris[l].getVertices()[0].subtract(position)
+                ) /  tris[l].getNormal().dot(tempDest)
+              );
+              PrecisePoint intersection = position.add(cameraToIntersection);
 
-            PrecisePoint intersection = position.add(tempDir);
-            rays[i+j*size].addCollisionPoint(intersection);
-
+            //System.out.println("destination: "+destination);
+            //System.out.println("intersection: "+intersection);
 
             if(tris[l].contains(intersection)){ //if the intersection is contained by the triangle and the normals of the triangle and the ray are opposite
-              if(tris[l].getNormal().dot(tempDir) > 0){
+              //System.out.println("normal dot v: "+tris[l].getNormal().dot(cameraToIntersection));
+              if(tris[l].getNormal().dot(cameraToIntersection) < 0){
 
-                rays[i+j*size].numberOfCollision+=1;
-                if(tris[l].label!=null){
-                  System.out.println("tri normal: " + tris[l].getNormal());
-                  System.out.println("camera normal: " + dir);
-                  rays[i+j*size].label="bottom";
-                }
-                Random rand = new Random();
-                float r = rand.nextFloat();
-                float g = rand.nextFloat();
-                float b = rand.nextFloat();
-                tris[l].color=new Color(r,g,b);
+                rays[i+j*width].numberOfCollision+=1;
+                rays[i+j*width].addCollisionPoint(intersection);
+                PrecisePoint lightToIntersection = intersection.subtract(lightSource);
+                //System.out.println(tris[l].getNormal());
+                double I = -1*lightToIntersection.dot(tris[l].getNormal()) / ( lightToIntersection.magnitude()*tris[l].getNormal().magnitude() );
+                //System.out.println(I);
+                tris[l].color=new Color((float)I,(float)I,(float)I);
+                pixels[i+j*width].setColor(tris[l].color);
               }
             }
           }
