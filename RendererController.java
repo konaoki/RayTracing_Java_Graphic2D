@@ -3,12 +3,14 @@ import javax.swing.*;
 import javax.swing.event.*;
 public class RendererController{
   public static void main(String[] args){
-    RendererCanvas canvas = new RendererCanvas(1000,1000);
+    int width=600;
+    int height=600;
+    RendererCanvas canvas = new RendererCanvas(width,height);
     //RendererGUI sliders = new RendererGUI(canvas);
     JFrame frame = new JFrame();
     frame.setTitle("ray casting");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    canvas.setPreferredSize(new Dimension(1000,1000));
+    canvas.setPreferredSize(new Dimension(width,height));
     frame.add(canvas, BorderLayout.CENTER);
 
     //frame.add(sliders,BorderLayout.EAST);

@@ -45,7 +45,7 @@ public class Triangle extends Plane{
 
   public void addVector(PrecisePoint p){
     for(int i=0; i<getVertices().length; i++){
-      getVertices()[i].add(p);
+      vertices[i]=getVertices()[i].add(p);
     }
   }
 

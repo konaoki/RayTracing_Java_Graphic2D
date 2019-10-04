@@ -12,7 +12,7 @@ public class RendererCanvas extends JPanel{
   Camera camera;
   public RendererCanvas(int w,int h){
 
-    double zOffset=-2;
+    double zOffset=-1;
     PrecisePoint v1 = new PrecisePoint(-1,-1,+zOffset);
     PrecisePoint v2 = new PrecisePoint(1,-1,+zOffset);
     PrecisePoint v3 = new PrecisePoint(1,1,+zOffset);
@@ -23,8 +23,8 @@ public class RendererCanvas extends JPanel{
     );
     //model=new Model(new Triangle[]{new Triangle(v1.clone(),v2.clone(),v3.clone())});
 
-    model = model.scale(400);
-
+    model = model.scale(200);
+    model.addVector(model.getCenter().scale(-1).setZ(0));
     model.rotateX(-45,model.getCenter());
     model.rotateY(-45,model.getCenter());
     //model.rotateZ(15,model.getCenter());
