@@ -12,7 +12,7 @@ class RendererGUI extends JPanel implements ChangeListener
 
 		setLayout(new GridLayout(1,3,30,10));
 
-    xSlider = new JSlider(JSlider.VERTICAL,-90,90,0);
+    xSlider = new JSlider(JSlider.VERTICAL,-100,100,0);
 		xSlider.setMajorTickSpacing(50);
 		xSlider.setMinorTickSpacing(10);
 		xSlider.setPaintTicks(true);
@@ -29,10 +29,7 @@ class RendererGUI extends JPanel implements ChangeListener
 
    public void stateChanged(ChangeEvent ev)
    {
-     //when state changes, change circle colors accordingly and repaint
-
-     cc.model.rotateZ(xSlider.getValue(),new PrecisePoint(0,0,0));
-     cc.repaint();
+     //cc.camera.lightHeight=xSlider.getValue();
 	 }//end stateChanged
 
 }

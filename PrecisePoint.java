@@ -53,6 +53,48 @@ public class PrecisePoint{
     y=tempPrecisePoint[1]+center.getY();
     z=tempPrecisePoint[2]+center.getZ();
   }
+  public PrecisePoint returnRotateX(double angle, PrecisePoint center){
+    double[] tempPrecisePoint = new double[3];
+    double rad = Math.toRadians(angle);
+    double tx=getX()-center.getX();
+    double ty=getY()-center.getY();
+    double tz=getZ()-center.getZ();
+    tempPrecisePoint[0]=tx;
+    tempPrecisePoint[1]=ty*Math.cos(rad)-tz*Math.sin(rad);
+    tempPrecisePoint[2]=ty*Math.sin(rad)+tz*Math.cos(rad);
+    x=tempPrecisePoint[0]+center.getX();
+    y=tempPrecisePoint[1]+center.getY();
+    z=tempPrecisePoint[2]+center.getZ();
+    return new PrecisePoint(x,y,z);
+  }
+  public PrecisePoint returnRotateY(double angle, PrecisePoint center){
+    double[] tempPrecisePoint = new double[3];
+    double rad = Math.toRadians(angle);
+    double tx=getX()-center.getX();
+    double ty=getY()-center.getY();
+    double tz=getZ()-center.getZ();
+    tempPrecisePoint[0]=tx*Math.cos(rad)+tz*Math.sin(rad);
+    tempPrecisePoint[1]=ty;
+    tempPrecisePoint[2]=-1*tx*Math.sin(rad)+tz*Math.cos(rad);
+    x=tempPrecisePoint[0]+center.getX();
+    y=tempPrecisePoint[1]+center.getY();
+    z=tempPrecisePoint[2]+center.getZ();
+    return new PrecisePoint(x,y,z);
+  }
+  public PrecisePoint returnRotateZ(double angle, PrecisePoint center){
+    double[] tempPrecisePoint = new double[3];
+    double rad = Math.toRadians(angle);
+    double tx=getX()-center.getX();
+    double ty=getY()-center.getY();
+    double tz=getZ()-center.getZ();
+    tempPrecisePoint[0]=tx*Math.cos(rad)-ty*Math.sin(rad);
+    tempPrecisePoint[1]=tx*Math.sin(rad)+ty*Math.cos(rad);
+    tempPrecisePoint[2]=ty;
+    x=tempPrecisePoint[0]+center.getX();
+    y=tempPrecisePoint[1]+center.getY();
+    z=tempPrecisePoint[2]+center.getZ();
+    return new PrecisePoint(x,y,z);
+  }
   public PrecisePoint scale(double s){
     return new PrecisePoint(getX()*s,getY()*s,getZ()*s);
   }

@@ -12,14 +12,17 @@ public class Camera{
 
   PrecisePoint lightSource;
 
+  int lightHeight;
+
   public Camera(PrecisePoint p, PrecisePoint d,int w,int h){
     position=p;
     direction=d;
+    lightHeight=0;
     models=new ArrayList<Model>();
     width=w;
     height=h;
     window=new Plane(new PrecisePoint[]{position.add(new PrecisePoint(-width/2,height/2,0)),position.add(new PrecisePoint(width/2,height/2,0)),position.add(new PrecisePoint(width/2,-height/2,0)),position.add(new PrecisePoint(-width/2,-height/2,0))});
-    lightSource=position.clone().setZ(0);
+    lightSource=position.clone().setZ(10).setY(position.getY()-lightHeight);
   }
 
   public void loadModel(Model m){
@@ -60,6 +63,14 @@ public class Camera{
                 //System.out.println(tris[l].getNormal());
                 double I = -1*lightToIntersection.dot(tris[l].getNormal()) / ( lightToIntersection.magnitude()*tris[l].getNormal().magnitude() );
                 //System.out.println(I);
+                double min = 0.3;
+                double max=1;
+                if(I<min){
+                  I=min;
+                }
+                else if(I>max){
+                  I=max;
+                }
                 tris[l].color=new Color((float)I,(float)I,(float)I);
                 pixels[i+j*width].setColor(tris[l].color);
               }

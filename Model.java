@@ -21,26 +21,33 @@ public class Model{
     }
     return new Model(tempTriangles);
   }
-  public void rotateX(double angle, PrecisePoint c){
+  public Model rotateX(double angle, PrecisePoint c){
+    Triangle[] tempTriangles = new Triangle[getTriangles().length];
     for(int i=0; i<getTriangles().length; i++){
-      triangles[i].rotateX(angle,c);
-
+      tempTriangles[i]=triangles[i].rotateX(angle,c);
     }
+    return new Model(tempTriangles);
   }
-  public void rotateY(double angle, PrecisePoint c){
+  public Model rotateY(double angle, PrecisePoint c){
+    Triangle[] tempTriangles = new Triangle[getTriangles().length];
     for(int i=0; i<getTriangles().length; i++){
-      triangles[i].rotateY(angle,c);
+      tempTriangles[i]=triangles[i].rotateY(angle,c);
     }
+    return new Model(tempTriangles);
   }
-  public void rotateZ(double angle, PrecisePoint c){
+  public Model rotateZ(double angle, PrecisePoint c){
+    Triangle[] tempTriangles = new Triangle[getTriangles().length];
     for(int i=0; i<getTriangles().length; i++){
-      triangles[i].rotateZ(angle,c);
+      tempTriangles[i]=triangles[i].rotateZ(angle,c);
     }
+    return new Model(tempTriangles);
   }
-  public void addVector(PrecisePoint p){
+  public Model addVector(PrecisePoint p){
+    Triangle[] tempTriangles = new Triangle[getTriangles().length];
     for(int i=0; i<getTriangles().length; i++){
-      triangles[i].addVector(p);
+      tempTriangles[i]=triangles[i].addVector(p);
     }
+    return new Model(tempTriangles);
   }
   public Triangle[] getTriangles(){
     return triangles;

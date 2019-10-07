@@ -18,21 +18,26 @@ public class Triangle extends Plane{
     }
     return r;
   }
-  public void rotateX(double angle, PrecisePoint c){
+  public Triangle rotateX(double angle, PrecisePoint c){
+    PrecisePoint[] tempVertices = new PrecisePoint[3];
     for(int i=0; i<getVertices().length; i++){
-      getVertices()[i].rotateX(angle,c);
-
+      tempVertices[i]=getVertices()[i].returnRotateX(angle,c);
     }
+    return new Triangle(tempVertices[0],tempVertices[1],tempVertices[2]);
   }
-  public void rotateY(double angle, PrecisePoint c){
+  public Triangle rotateY(double angle, PrecisePoint c){
+    PrecisePoint[] tempVertices = new PrecisePoint[3];
     for(int i=0; i<getVertices().length; i++){
-      getVertices()[i].rotateY(angle,c);
+      tempVertices[i]=getVertices()[i].returnRotateY(angle,c);
     }
+    return new Triangle(tempVertices[0],tempVertices[1],tempVertices[2]);
   }
-  public void rotateZ(double angle, PrecisePoint c){
+  public Triangle rotateZ(double angle, PrecisePoint c){
+    PrecisePoint[] tempVertices = new PrecisePoint[3];
     for(int i=0; i<getVertices().length; i++){
-      getVertices()[i].rotateZ(angle,c);
+      tempVertices[i]=getVertices()[i].returnRotateZ(angle,c);
     }
+    return new Triangle(tempVertices[0],tempVertices[1],tempVertices[2]);
   }
 
   public Triangle scale(double s){
@@ -43,10 +48,12 @@ public class Triangle extends Plane{
     return new Triangle(tempVertices[0],tempVertices[1],tempVertices[2]);
   }
 
-  public void addVector(PrecisePoint p){
+  public Triangle addVector(PrecisePoint p){
+    PrecisePoint[] tempVertices = new PrecisePoint[3];
     for(int i=0; i<getVertices().length; i++){
-      vertices[i]=getVertices()[i].add(p);
+      tempVertices[i]=getVertices()[i].add(p);
     }
+    return new Triangle(tempVertices[0],tempVertices[1],tempVertices[2]);
   }
 
   public PrecisePoint getCenter(){
