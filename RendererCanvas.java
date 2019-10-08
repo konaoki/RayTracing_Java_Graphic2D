@@ -35,7 +35,7 @@ public class RendererCanvas extends JPanel{
     transformedModel = model.rotateY(30,model.getCenter());
     //transformedModel = model.rotateZ(15,model.getCenter());
 
-    camera = new Camera(new PrecisePoint(0,0,10000),new PrecisePoint(0,0,-10),w,h);
+    camera = new Camera(new PrecisePoint(0,0,1000),new PrecisePoint(0,0,-10),w,h);
     //lightSource = new Light(camera.position);
   }
   @Override
@@ -46,7 +46,7 @@ public class RendererCanvas extends JPanel{
     g.fillRect(0, 0, getWidth(), getHeight());
     g2d.translate(getWidth()/2,getHeight()/2);
     g2d.scale(1,-1);
-    
+
     camera.loadModel(transformedModel);
     camera.rayTrace();
     Draw(g2d,transformedModel);

@@ -23,9 +23,9 @@ public class RendererController{
     int delay = 20; // milliseconds
     ActionListener taskPerformer = new ActionListener() {
        public void actionPerformed(ActionEvent evt) {
-         canvas.camera = new Camera(new PrecisePoint(0,0,10000),new PrecisePoint(0,0,-10),width,height);
+         canvas.camera = new Camera(new PrecisePoint(0,0,1000),new PrecisePoint(0,0,-10),width,height);
          canvas.camera.lightSource=canvas.camera.position.clone().setZ(0).setY(canvas.camera.position.getY()+sliders.xSlider.getValue());
-         canvas.transformedModel = canvas.model.rotateY(1,canvas.model.getCenter());
+         canvas.transformedModel = canvas.transformedModel.rotateY(1,canvas.transformedModel.getCenter());
          canvas.repaint();
        }
     };
